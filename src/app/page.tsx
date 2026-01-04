@@ -81,7 +81,11 @@ export default function LoginPage() {
   
   // You might want to show a loading spinner here
   if(isUserLoading || user) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    )
   }
 
   return (
@@ -92,7 +96,7 @@ export default function LoginPage() {
             <div className="flex justify-center items-center gap-2 mb-4">
               <Logo />
             </div>
-            <h1 className="text-3xl font-bold font-headline">Login to EduQuest</h1>
+            <h1 className="text-3xl font-bold font-headline">Login to Fun Learn</h1>
             <p className="text-balance text-muted-foreground">
               Enter your email below to login to your account
             </p>
