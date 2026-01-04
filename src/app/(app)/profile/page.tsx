@@ -10,8 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { user } from '@/lib/data';
+import { user as staticUser } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import {
   Trophy,
@@ -25,6 +24,8 @@ import {
   ChartConfig,
 } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { useDoc, useFirebase, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 
 const chartData = [
   { subject: 'Maths', progress: 75, fill: 'var(--color-maths)' },
@@ -52,22 +53,35 @@ const chartConfig = {
 
 
 export default function ProfilePage() {
-  const avatarImage = PlaceHolderImages.find((img) => img.id === user.avatar);
+  const { user, firestore } = useFirebase();
+
+  const userDocRef = useMemoFirebase(
+    () => (user ? doc(firestore, 'users', user.uid) : null),
+    [user, firestore]
+  );
+  const { data: userProfile } = useDoc(userDocRef);
+
+  const avatarImage = PlaceHolderImages.find((img) => img.id === 'user-avatar-2');
+
+  const displayName = userProfile?.userName || user?.displayName || "Explorer";
+  const level = userProfile?.level || 1;
+  const points = userProfile?.points || 0;
+  const badges = staticUser.badges; // TODO: Fetch from firestore
 
   return (
     <div className="flex flex-col gap-8">
       <Card>
         <CardHeader className="flex flex-col md:flex-row items-center gap-6 space-y-0">
           <Avatar className="h-24 w-24 border-4 border-primary">
-            {avatarImage && <AvatarImage src={avatarImage.imageUrl} alt={user.name} data-ai-hint={avatarImage.imageHint} />}
-            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+            {avatarImage && <AvatarImage src={userProfile?.avatar || avatarImage.imageUrl} alt={displayName} data-ai-hint={avatarImage.imageHint} />}
+            <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="text-center md:text-left">
-            <h1 className="text-3xl font-bold font-headline">{user.name}</h1>
-            <p className="text-muted-foreground">Level {user.level} - The Explorer</p>
+            <h1 className="text-3xl font-bold font-headline">{displayName}</h1>
+            <p className="text-muted-foreground">Level {level} - The Explorer</p>
             <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
               <Star className="w-5 h-5 text-accent" />
-              <span className="font-bold">{user.points.toLocaleString()}</span>
+              <span className="font-bold">{points.toLocaleString()}</span>
               <span className="text-sm text-muted-foreground">Points</span>
             </div>
           </div>
@@ -76,7 +90,7 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row gap-6 text-center">
              <div className="flex-1 flex flex-col items-center gap-2 p-4 bg-secondary rounded-lg">
                 <Trophy className="w-8 h-8 text-primary" />
-                <p className="font-bold text-2xl">{user.badges.length}</p>
+                <p className="font-bold text-2xl">{badges.length}</p>
                 <p className="text-sm text-muted-foreground">Badges Earned</p>
              </div>
              <div className="flex-1 flex flex-col items-center gap-2 p-4 bg-secondary rounded-lg">
@@ -95,7 +109,7 @@ export default function ProfilePage() {
             <CardDescription>A collection of your amazing achievements!</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {user.badges.map((badgeInfo) => {
+            {badges.map((badgeInfo) => {
               const badgeImage = PlaceHolderImages.find((img) => img.id === badgeInfo.id);
               return (
                 <div key={badgeInfo.name} className="flex flex-col items-center text-center gap-2 p-2 rounded-lg hover:bg-secondary transition-colors">
@@ -136,7 +150,6 @@ export default function ProfilePage() {
                 <YAxis
                     tickLine={false}
                     axisLine={false}
-                    tickMargin={10}
                     tickFormatter={(value) => `${value}%`}
                 />
                 <ChartTooltip

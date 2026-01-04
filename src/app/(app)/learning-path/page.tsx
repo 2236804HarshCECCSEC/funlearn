@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
   generatePersonalizedLearningPath,
-  type PersonalizedLearningPathInput,
   type PersonalizedLearningPathOutput,
 } from '@/ai/flows/personalized-learning-paths';
 
@@ -18,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Lightbulb, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
-import { user } from '@/lib/data';
+import { useUser } from '@/firebase';
 
 const formSchema = z.object({
   childName: z.string().min(2, 'Please enter a name.'),
@@ -28,6 +27,7 @@ const formSchema = z.object({
 });
 
 export default function LearningPathPage() {
+  const { user } = useUser();
   const [learningPath, setLearningPath] = useState<PersonalizedLearningPathOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -35,7 +35,7 @@ export default function LearningPathPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      childName: user.name,
+      childName: user?.displayName || '',
       age: 8,
       performanceData: 'Strong in basic addition but struggles with multiplication tables. Enjoys reading short stories but finds grammar rules difficult. Knows basic concepts about plants and animals.',
       desiredLearningOutcomes: 'Improve multiplication skills, understand sentence structure better, and learn about the solar system.',

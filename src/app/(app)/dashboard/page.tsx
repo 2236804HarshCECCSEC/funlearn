@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
   Card,
@@ -9,14 +11,17 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { subjects, user } from '@/lib/data';
+import { subjects } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
+import { useUser } from '@/firebase';
 
 export default function DashboardPage() {
+  const { user } = useUser();
+  
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Welcome back, {user.name}!</h1>
+        <h1 className="text-3xl font-bold font-headline">Welcome back, {user?.displayName || 'Explorer'}!</h1>
         <p className="text-muted-foreground">Ready to start a new learning adventure today?</p>
       </div>
 
