@@ -30,27 +30,23 @@ export default function MathPage() {
           <CardDescription>Test your skills with our fun math challenges.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-            <Link href="/math/levels" legacyBehavior passHref>
-                <a className="block p-6 bg-secondary/80 rounded-lg hover:bg-secondary transition-colors">
-                    <div className="flex items-center gap-4">
-                        <School className="h-8 w-8 text-primary" />
-                        <div>
-                            <h3 className="text-lg font-bold">Level Challenge</h3>
-                            <p className="text-sm text-muted-foreground">Progress through 10 levels of increasing difficulty.</p>
-                        </div>
+            <Link href="/math/levels" className="block p-6 bg-secondary/80 rounded-lg hover:bg-secondary transition-colors">
+                <div className="flex items-center gap-4">
+                    <School className="h-8 w-8 text-primary" />
+                    <div>
+                        <h3 className="text-lg font-bold">Level Challenge</h3>
+                        <p className="text-sm text-muted-foreground">Progress through 10 levels of increasing difficulty.</p>
                     </div>
-                </a>
+                </div>
             </Link>
-            <Link href="/math/game" legacyBehavior passHref>
-                 <a className="block p-6 bg-secondary/80 rounded-lg hover:bg-secondary transition-colors">
-                    <div className="flex items-center gap-4">
-                        <Gamepad2 className="h-8 w-8 text-primary" />
-                        <div>
-                            <h3 className="text-lg font-bold">Quick Play</h3>
-                            <p className="text-sm text-muted-foreground">Solve random problems to earn points!</p>
-                        </div>
+            <Link href="/math/game" className="block p-6 bg-secondary/80 rounded-lg hover:bg-secondary transition-colors">
+                <div className="flex items-center gap-4">
+                    <Gamepad2 className="h-8 w-8 text-primary" />
+                    <div>
+                        <h3 className="text-lg font-bold">Quick Play</h3>
+                        <p className="text-sm text-muted-foreground">Solve random problems to earn points!</p>
                     </div>
-                </a>
+                </div>
             </Link>
         </CardContent>
       </Card>
