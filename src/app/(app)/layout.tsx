@@ -5,7 +5,7 @@ import {
   User,
   Lightbulb,
   FileQuestion,
-  BookOpen,
+  AreaChart,
 } from 'lucide-react';
 
 import {
@@ -23,24 +23,29 @@ import { UserNav } from '@/components/user-nav';
 import { Logo } from '@/components/logo';
 import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading } = useUser();
   const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.push('/');
+    if (!isUserLoading) {
+      if (!user) {
+        router.push('/');
+      } else {
+        setIsReady(true);
+      }
     }
   }, [user, isUserLoading, router]);
 
-  if (isUserLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return null;
+  if (!isReady) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -64,6 +69,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Link href="/profile">
                   <User />
                   <span>My Profile</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Progress Report">
+                <Link href="/progress-report">
+                  <AreaChart />
+                  <span>Progress Report</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
