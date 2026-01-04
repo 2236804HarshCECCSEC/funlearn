@@ -14,28 +14,32 @@ import { Progress } from '@/components/ui/progress';
 import { ArrowRight, Calculator, BookOpen, FlaskConical } from 'lucide-react';
 import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
+import { useMemo } from 'react';
 
 const subjects = [
   {
     name: 'Maths',
     description: 'Numbers, shapes, and logic.',
     icon: Calculator,
-    href: '/math',
+    href: '/math/levels',
     moduleCount: 10,
+    subject: 'math',
   },
   {
     name: 'English',
     description: 'Reading, writing, and stories.',
     icon: BookOpen,
-    href: '/english',
+    href: '/english/levels',
     moduleCount: 10,
+    subject: 'english',
   },
   {
     name: 'Science',
     description: 'Exploring the world around us.',
     icon: FlaskConical,
-    href: '/science',
+    href: '/science/levels',
     moduleCount: 10,
+    subject: 'science',
   },
 ];
 
@@ -48,7 +52,35 @@ export default function DashboardPage() {
   );
   const { data: userProgress } = useCollection(userProgressQuery);
 
-  const lastProgress = userProgress?.find(p => p.score > 0);
+  const lastProgress = useMemo(() => {
+    if (!userProgress || userProgress.length === 0) return null;
+    
+    const sortedProgress = [...userProgress]
+      .filter(p => p.lastAccessTime)
+      .sort((a, b) => {
+        const timeA = a.lastAccessTime?.toDate()?.getTime() || 0;
+        const timeB = b.lastAccessTime?.toDate()?.getTime() || 0;
+        return timeB - timeA;
+      });
+
+    return sortedProgress.find(p => !p.completed) || sortedProgress[0] || null;
+  }, [userProgress]);
+
+  const lastProgressInfo = useMemo(() => {
+    if (!lastProgress) return null;
+
+    const [subject, level] = lastProgress.moduleId.split('-');
+    const subjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
+    
+    return {
+      subject,
+      level,
+      subjectName,
+      href: `/${subject}/levels/${level}`,
+      description: `You're working on ${subjectName} Level ${level}.`
+    };
+  }, [lastProgress]);
+
 
   return (
     <div className="flex flex-col gap-8">
@@ -57,18 +89,23 @@ export default function DashboardPage() {
         <p className="text-muted-foreground">Ready to start a new learning adventure today?</p>
       </div>
 
-      {lastProgress && (
+      {lastProgress && lastProgressInfo && (
         <Card className="bg-primary/10 border-primary/50">
           <CardHeader>
             <CardTitle className="font-headline">Continue Your Quest</CardTitle>
-            <CardDescription>You're doing great! You've completed {lastProgress.score}% of a module.</CardDescription>
+            <CardDescription>{lastProgressInfo.description}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Progress value={lastProgress.score} className="h-3" />
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium">{lastProgress.score}%</span>
+              <Progress value={lastProgress.score} className="h-3 flex-1" />
+            </div>
           </CardContent>
           <CardFooter>
-            <Button variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              Jump Back In <ArrowRight className="ml-2 h-4 w-4" />
+            <Button asChild variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+              <Link href={lastProgressInfo.href}>
+                Jump Back In <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
           </CardFooter>
         </Card>
