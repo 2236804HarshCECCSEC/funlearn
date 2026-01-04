@@ -81,7 +81,7 @@ export default function SignupPage() {
         title: 'Account Created!',
         description: 'You have been successfully signed up.',
       });
-      router.push('/dashboard');
+      router.push('/quiz');
     } catch (error: any) {
       console.error(error);
       toast({
@@ -120,7 +120,7 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (!isUserLoading && user) {
-      router.push('/dashboard');
+      router.push('/quiz');
     }
   }, [user, isUserLoading, router]);
 

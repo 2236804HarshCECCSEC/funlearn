@@ -5,6 +5,7 @@ import {
   User,
   Lightbulb,
   FileQuestion,
+  BookOpen,
 } from 'lucide-react';
 
 import {
@@ -51,10 +52,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Dashboard">
-                <Link href="/dashboard">
-                  <Home />
-                  <span>Dashboard</span>
+              <SidebarMenuButton asChild tooltip="Quiz">
+                <Link href="/quiz">
+                  <BookOpen />
+                  <span>Quiz</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -67,8 +68,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Quizzes">
-                <Link href="/quiz">
+              <SidebarMenuButton asChild tooltip="AI Quizzes">
+                <Link href="/ai-quiz">
                   <FileQuestion />
                   <span>AI Quizzes</span>
                 </Link>
