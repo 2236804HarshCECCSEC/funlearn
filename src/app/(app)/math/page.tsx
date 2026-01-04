@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Calculator, Check, ChevronsRight, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Operator = '+' | '-';
 
@@ -40,14 +41,19 @@ function generateProblem(): Problem {
 }
 
 export default function MathGamePage() {
-  const [problem, setProblem] = useState<Problem>(generateProblem());
+  const [problem, setProblem] = useState<Problem | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [message, setMessage] = useState('');
   const [score, setScore] = useState(0);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
+  useEffect(() => {
+    setProblem(generateProblem());
+  }, []);
+
   const checkAnswer = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!problem) return;
     const answer = parseInt(userAnswer, 10);
     if (answer === problem.answer) {
       setScore(score + 1);
@@ -90,9 +96,13 @@ export default function MathGamePage() {
           <CardDescription>Type your answer in the box below.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex justify-center items-center text-5xl font-bold font-mono bg-secondary/80 rounded-lg p-8 my-4">
-            {problem.num1} {problem.operator} {problem.num2} = ?
-          </div>
+          {problem ? (
+            <div className="flex justify-center items-center text-5xl font-bold font-mono bg-secondary/80 rounded-lg p-8 my-4">
+              {problem.num1} {problem.operator} {problem.num2} = ?
+            </div>
+          ) : (
+            <Skeleton className="h-[108px] my-4" />
+          )}
           <form onSubmit={checkAnswer}>
             <Input
               type="number"
@@ -100,10 +110,10 @@ export default function MathGamePage() {
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Your Answer"
               className="text-center text-xl h-12"
-              disabled={isCorrect !== null}
+              disabled={isCorrect !== null || !problem}
             />
              {isCorrect === null && (
-                <Button type="submit" className="w-full mt-4" disabled={!userAnswer}>
+                <Button type="submit" className="w-full mt-4" disabled={!userAnswer || !problem}>
                   Check Answer <Check className="ml-2 h-4 w-4" />
                 </Button>
               )}
