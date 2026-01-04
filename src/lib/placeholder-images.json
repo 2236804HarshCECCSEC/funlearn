@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "login-hero",
+      "description": "Children learning with laptops",
+      "imageUrl": "https://images.unsplash.com/photo-1565843248736-8c41e6db117b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2hpbGRyZW4lMjBsZWFybmluZ3xlbnwwfHx8fDE3Njc1MzI4MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "children learning"
+    },
+    {
+      "id": "user-avatar-1",
+      "description": "User avatar of a young boy",
+      "imageUrl": "https://images.unsplash.com/photo-1686320811637-0b21baae5176?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2hpbGQlMjBhdmF0YXJ8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "child avatar"
+    },
+    {
+      "id": "badge-math-wiz",
+      "description": "Badge for math achievement",
+      "imageUrl": "https://images.unsplash.com/photo-1716594568176-bed65e6dcb99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtYXRoJTIwYmFkZ2V8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "math badge"
+    },
+    {
+      "id": "badge-word-smith",
+      "description": "Badge for english achievement",
+      "imageUrl": "https://images.unsplash.com/photo-1644926054948-8c1155eeb0e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxib29rJTIwYmFkZ2V8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book badge"
+    },
+    {
+      "id": "badge-science-explorer",
+      "description": "Badge for science achievement",
+      "imageUrl": "https://images.unsplash.com/photo-1587567867628-9df136e92128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzY2llbmNlJTIwYmFkZ2V8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "science badge"
+    },
+    {
+      "id": "badge-super-speller",
+      "description": "Badge for spelling achievement",
+      "imageUrl": "https://images.unsplash.com/photo-1581606588715-a4735b758c18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzcGVsbGluZyUyMGJlZXxlbnwwfHx8fDE3Njc1NDg2MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "spelling bee"
+    },
+    {
+      "id": "badge-geometry-genius",
+      "description": "Badge for geometry achievement",
+      "imageUrl": "https://images.unsplash.com/photo-1655432903109-b2163dc278ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnZW9tZXRyeSUyMHNoYXBlfGVufDB8fHx8MTc2NzU0ODYwM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "geometry shape"
+    }
+  ]
 }
