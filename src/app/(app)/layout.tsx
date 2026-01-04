@@ -6,6 +6,7 @@ import {
   Lightbulb,
   FileQuestion,
   AreaChart,
+  BookMarked,
 } from 'lucide-react';
 
 import {
@@ -61,6 +62,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Link href="/dashboard">
                   <Home />
                   <span>Dashboard</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Colorful Books">
+                <Link href="/colorful-books">
+                  <BookMarked />
+                  <span>Colorful Books</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
