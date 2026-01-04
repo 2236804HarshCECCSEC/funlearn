@@ -13,6 +13,12 @@
       "imageHint": "child avatar"
     },
     {
+      "id": "user-avatar-2",
+      "description": "User avatar of a boy with glasses",
+      "imageUrl": "https://images.unsplash.com/photo-1509631191314-12b8d949987a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxib3klMjBnbGFzc2VzfGVufDB8fHx8MTc2NzU0OTgwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "boy glasses"
+    },
+    {
       "id": "badge-math-wiz",
       "description": "Badge for math achievement",
       "imageUrl": "https://images.unsplash.com/photo-1716594568176-bed65e6dcb99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtYXRoJTIwYmFkZ2V8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",

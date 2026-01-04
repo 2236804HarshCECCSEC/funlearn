@@ -1,9 +1,9 @@
 import { Calculator, BookOpenText, FlaskConical } from 'lucide-react';
 
 export const user = {
-  name: 'Alex',
-  email: 'alex.doe@example.com',
-  avatar: 'user-avatar-1',
+  name: 'Harsh Singh',
+  email: 'harsh.singh@example.com',
+  avatar: 'user-avatar-2',
   points: 1250,
   level: 8,
   badges: [
