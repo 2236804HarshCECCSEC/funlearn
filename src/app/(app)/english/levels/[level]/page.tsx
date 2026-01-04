@@ -1,0 +1,164 @@
+'use client';
+
+import { useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { englishLevels, type MCQ } from '@/lib/english-questions';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { CheckCircle2, XCircle, Trophy, Volume2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+
+export default function EnglishLevelPage() {
+  const router = useRouter();
+  const params = useParams();
+  const levelNumber = parseInt(params.level as string, 10);
+  const level = englishLevels.find((l) => l.level === levelNumber);
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const [score, setScore] = useState(0);
+  const [quizState, setQuizState] = useState<'active' | 'results'>('active');
+
+  if (!level) {
+    return (
+      <div className="text-center py-10">
+        <h1 className="text-2xl font-bold">Level not found!</h1>
+        <Button onClick={() => router.push('/english/levels')} className="mt-4">
+          Back to Levels
+        </Button>
+      </div>
+    );
+  }
+
+  const questions = level.questions;
+  const currentQuestion: MCQ = questions[currentQuestionIndex];
+  const selectedAnswer = selectedAnswers[currentQuestionIndex];
+  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+  const handleAnswer = (answer: string) => {
+    if (selectedAnswer) return; // Prevent changing answer
+
+    setSelectedAnswers((prev) => ({ ...prev, [currentQuestionIndex]: answer }));
+    if (answer === currentQuestion.correctAnswer) {
+      setScore((prev) => prev + 1);
+    }
+  };
+  
+  const handleAudio = (text: string) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  const goToNextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setQuizState('results');
+    }
+  };
+
+  const resetQuiz = () => {
+    setCurrentQuestionIndex(0);
+    setSelectedAnswers({});
+    setScore(0);
+    setQuizState('active');
+  }
+
+  if (quizState === 'results') {
+    return (
+        <div className="w-full max-w-2xl mx-auto text-center py-8">
+            <Card className="bg-secondary">
+                <CardHeader>
+                    <Trophy className="h-16 w-16 text-accent mx-auto" />
+                    <CardTitle className="text-3xl font-headline mt-4">Level {level.level} Complete!</CardTitle>
+                    <CardDescription>Great job on finishing the quiz.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-5xl font-bold">{Math.round((score / questions.length) * 100)}%</p>
+                    <p className="text-muted-foreground mt-2">You answered {score} out of {questions.length} questions correctly.</p>
+                </CardContent>
+                <CardFooter className="flex-col gap-4">
+                    <Button onClick={resetQuiz} className="w-full">Try Again</Button>
+                    <Button asChild variant="outline" className="w-full">
+                       <Link href="/english/levels">Back to Levels</Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+        </div>
+    )
+  }
+
+  return (
+    <div className="w-full max-w-2xl mx-auto py-8">
+      <div className="text-center mb-4">
+          <h1 className="text-3xl font-bold font-headline">{level.title}</h1>
+          <p className="text-muted-foreground">Question {currentQuestionIndex + 1} of {questions.length}</p>
+      </div>
+      <Progress value={progress} className="mb-4" />
+      <Card>
+        <CardHeader>
+          {currentQuestion.visual && (
+             <div className="text-6xl text-center p-4 bg-muted rounded-lg select-none" aria-hidden="true">
+                {currentQuestion.visual}
+             </div>
+          )}
+          <div className="flex items-center justify-between pt-4">
+            <CardTitle className="text-2xl">{currentQuestion.question}</CardTitle>
+            {currentQuestion.audioSrc !== false && (
+              <Button variant="ghost" size="icon" onClick={() => handleAudio(currentQuestion.question)}>
+                <Volume2 className="h-6 w-6" />
+              </Button>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {currentQuestion.options.map((option) => {
+            const isSelected = selectedAnswer === option;
+            const isCorrect = currentQuestion.correctAnswer === option;
+            return (
+              <Button
+                key={option}
+                variant="outline"
+                size="lg"
+                className={cn(
+                  'h-auto justify-start p-4 text-lg whitespace-normal',
+                  selectedAnswer && isCorrect && isSelected && 'bg-green-100 border-green-500 text-green-800 hover:bg-green-100 dark:bg-green-900/50 dark:text-green-200 dark:border-green-700',
+                  selectedAnswer && !isCorrect && isSelected && 'bg-red-100 border-red-500 text-red-800 hover:bg-red-100 dark:bg-red-900/50 dark:text-red-200 dark:border-red-700'
+                )}
+                onClick={() => handleAnswer(option)}
+                disabled={!!selectedAnswer}
+              >
+                <div className="flex-1 text-left">{option}</div>
+                 {selectedAnswer && isCorrect && isSelected && <CheckCircle2 className="h-6 w-6 text-green-600" />}
+                 {selectedAnswer && !isCorrect && isSelected && <XCircle className="h-6 w-6 text-red-600" />}
+              </Button>
+            );
+          })}
+        </CardContent>
+        <CardFooter>
+          {selectedAnswer && (
+            <div className="w-full text-center">
+                 <p className={cn("font-semibold mb-4", selectedAnswer === currentQuestion.correctAnswer ? "text-green-600" : "text-red-600")}>
+                    {selectedAnswer !== currentQuestion.correctAnswer ? `Not quite! The correct answer was ${currentQuestion.correctAnswer}.` : 'Correct! Great job!'}
+                </p>
+                <Button onClick={goToNextQuestion} className="w-full">
+                    {currentQuestionIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+                </Button>
+            </div>
+          )}
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}

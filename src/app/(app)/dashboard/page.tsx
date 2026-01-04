@@ -21,21 +21,21 @@ const subjects = [
     description: 'Numbers, shapes, and logic.',
     icon: Calculator,
     href: '/math',
-    moduleCount: 1,
+    moduleCount: 10,
   },
   {
     name: 'English',
     description: 'Reading, writing, and stories.',
     icon: BookOpen,
-    href: '#',
-    moduleCount: 0,
+    href: '/english',
+    moduleCount: 10,
   },
   {
     name: 'Science',
     description: 'Exploring the world around us.',
     icon: FlaskConical,
-    href: '#',
-    moduleCount: 0,
+    href: '/science',
+    moduleCount: 10,
   },
 ];
 
@@ -48,7 +48,7 @@ export default function DashboardPage() {
   );
   const { data: userProgress } = useCollection(userProgressQuery);
 
-  const lastProgress = userProgress?.[0]; // Get the first progress item as an example
+  const lastProgress = userProgress?.find(p => p.score > 0);
 
   return (
     <div className="flex flex-col gap-8">
@@ -57,7 +57,7 @@ export default function DashboardPage() {
         <p className="text-muted-foreground">Ready to start a new learning adventure today?</p>
       </div>
 
-      {lastProgress && lastProgress.score > 0 && (
+      {lastProgress && (
         <Card className="bg-primary/10 border-primary/50">
           <CardHeader>
             <CardTitle className="font-headline">Continue Your Quest</CardTitle>
