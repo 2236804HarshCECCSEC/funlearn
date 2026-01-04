@@ -11,10 +11,33 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { subjects } from '@/lib/data';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calculator, BookOpen, FlaskConical } from 'lucide-react';
 import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
+
+const subjects = [
+  {
+    name: 'Maths',
+    description: 'Numbers, shapes, and logic.',
+    icon: Calculator,
+    href: '/math',
+    moduleCount: 1,
+  },
+  {
+    name: 'English',
+    description: 'Reading, writing, and stories.',
+    icon: BookOpen,
+    href: '#',
+    moduleCount: 0,
+  },
+  {
+    name: 'Science',
+    description: 'Exploring the world around us.',
+    icon: FlaskConical,
+    href: '#',
+    moduleCount: 0,
+  },
+];
 
 export default function DashboardPage() {
   const { user, firestore } = useFirebase();
