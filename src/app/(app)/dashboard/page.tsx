@@ -19,7 +19,7 @@ const subjects = [
     description: 'Numbers, shapes, and logic.',
     icon: Calculator,
     href: '/math/levels',
-    moduleCount: 10,
+    moduleCount: 35,
     subject: 'math',
   },
   {
@@ -27,7 +27,7 @@ const subjects = [
     description: 'Reading, writing, and stories.',
     icon: BookOpen,
     href: '/english/levels',
-    moduleCount: 10,
+    moduleCount: 35,
     subject: 'english',
   },
   {
@@ -35,7 +35,7 @@ const subjects = [
     description: 'Exploring the world around us.',
     icon: FlaskConical,
     href: '/science/levels',
-    moduleCount: 10,
+    moduleCount: 35,
     subject: 'science',
   },
 ];
