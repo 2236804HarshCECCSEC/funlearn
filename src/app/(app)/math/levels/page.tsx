@@ -2,6 +2,7 @@
 
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -25,23 +26,21 @@ export default function MathLevelsPage() {
                 {mathLevels.map(level => {
                     const isUnlocked = level.level <= unlockedLevels;
                     return (
-                        <Link key={level.level} href={isUnlocked ? `/math/levels/${level.level}` : '#'} passHref legacyBehavior>
-                             <a className={!isUnlocked ? 'pointer-events-none' : ''}>
-                                <Card className={`flex flex-col h-full transition-all ${isUnlocked ? 'hover:border-primary hover:shadow-lg' : 'bg-muted/50 text-muted-foreground'}`}>
-                                    <CardHeader>
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <CardDescription>Level {level.level}</CardDescription>
-                                                <CardTitle className="text-xl font-bold">{level.title}</CardTitle>
-                                            </div>
-                                            {isUnlocked ? <Unlock className="h-5 w-5 text-green-500" /> : <Lock className="h-5 w-5" />}
+                        <Link key={level.level} href={isUnlocked ? `/math/levels/${level.level}` : '#'} className={!isUnlocked ? 'pointer-events-none' : ''}>
+                            <Card className={`flex flex-col h-full transition-all ${isUnlocked ? 'hover:border-primary hover:shadow-lg' : 'bg-muted/50 text-muted-foreground'}`}>
+                                <CardHeader>
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <CardDescription>Level {level.level}</CardDescription>
+                                            <CardTitle className="text-xl font-bold">{level.title}</CardTitle>
                                         </div>
-                                    </CardHeader>
-                                    <CardContent className="flex-grow">
-                                        <p className="text-sm">{level.description}</p>
-                                    </CardContent>
-                                </Card>
-                            </a>
+                                        {isUnlocked ? <Unlock className="h-5 w-5 text-green-500" /> : <Lock className="h-5 w-5" />}
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="flex-grow">
+                                    <p className="text-sm">{level.description}</p>
+                                </CardContent>
+                            </Card>
                         </Link>
                     )
                 })}
