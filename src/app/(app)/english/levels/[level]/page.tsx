@@ -16,8 +16,9 @@ import { Progress } from '@/components/ui/progress';
 import { CheckCircle2, XCircle, Trophy, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { useFirebase, setDocumentNonBlocking } from '@/firebase';
-import { doc, serverTimestamp } from 'firebase/firestore';
+import { useFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from '@/firebase';
+import { doc, serverTimestamp, collection } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 const PASSING_SCORE_PERCENTAGE = 70;
 
@@ -25,6 +26,7 @@ export default function EnglishLevelPage() {
   const router = useRouter();
   const params = useParams();
   const { user, firestore } = useFirebase();
+  const { toast } = useToast();
 
   const levelNumber = parseInt(params.level as string, 10);
   const level = englishLevels.find((l) => l.level === levelNumber);
@@ -91,6 +93,31 @@ export default function EnglishLevelPage() {
       completed: isCompleted,
       lastAccessTime: serverTimestamp(),
     }, { merge: true });
+
+    let badgeToAward: { id: string; name: string } | null = null;
+    if (finalScore >= 90) {
+      badgeToAward = { id: 'gold-badge', name: `Gold Medalist: ${level.title}` };
+    } else if (finalScore >= 80) {
+      badgeToAward = { id: 'silver-badge', name: `Silver Medalist: ${level.title}` };
+    } else if (finalScore >= 75) {
+      badgeToAward = { id: 'bronze-badge', name: `Bronze Medalist: ${level.title}` };
+    }
+
+    if (badgeToAward) {
+      const userBadgeRef = collection(firestore, 'users', user.uid, 'badges');
+      const newBadge = {
+        userId: user.uid,
+        badgeId: badgeToAward.id,
+        name: badgeToAward.name,
+        awardedDate: serverTimestamp(),
+      };
+      addDocumentNonBlocking(userBadgeRef, newBadge).then((docRef) => {
+         toast({
+          title: "New Badge Unlocked!",
+          description: `You've earned the "${badgeToAward?.name}" badge!`,
+        });
+      });
+    }
   }
 
   const resetQuiz = () => {

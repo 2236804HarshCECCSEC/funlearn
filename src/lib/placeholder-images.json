@@ -33,7 +33,7 @@
     {
       "id": "badge-science-explorer",
       "description": "Badge for science achievement",
-      "imageUrl": "https://images.unsplash.com/photo-1587567867628-9df136e92128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzY2llbmNlJTIwYmFkZ2V8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1587567867628-9df136e92128?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzY2llbmNlJTIwYmFkZ2V8ZW58MHx8fHwxNzY3NTQ4NjAzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "science badge"
     },
     {
@@ -47,6 +47,24 @@
       "description": "Badge for geometry achievement",
       "imageUrl": "https://images.unsplash.com/photo-1655432903109-b2163dc278ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnZW9tZXRyeSUyMHNoYXBlfGVufDB8fHx8MTc2NzU0ODYwM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "geometry shape"
+    },
+    {
+      "id": "gold-badge",
+      "description": "Gold achievement badge",
+      "imageUrl": "https://images.unsplash.com/photo-1613826488066-5a115a53a1fc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnb2xkJTIwbWVkYWx8ZW58MHx8fHwxNzY3NTUzNDMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gold medal"
+    },
+    {
+      "id": "silver-badge",
+      "description": "Silver achievement badge",
+      "imageUrl": "https://images.unsplash.com/photo-1587657959518-0ffebac8c89b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzaWx2ZXIlMjBtZWRhbHxlbnwwfHx8fDE3Njc1NTM0MzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "silver medal"
+    },
+    {
+      "id": "bronze-badge",
+      "description": "Bronze achievement badge",
+      "imageUrl": "https://images.unsplash.com/photo-1759688983881-0742f416a4b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxicm9uemUlMjBtZWRhbHxlbnwwfHx8fDE3Njc1NTM0MzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bronze medal"
     }
   ]
 }
