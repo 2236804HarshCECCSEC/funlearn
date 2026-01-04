@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Lightbulb, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { user } from '@/lib/data';
 
 const formSchema = z.object({
   childName: z.string().min(2, 'Please enter a name.'),
@@ -34,7 +35,7 @@ export default function LearningPathPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      childName: 'Alex',
+      childName: user.name,
       age: 8,
       performanceData: 'Strong in basic addition but struggles with multiplication tables. Enjoys reading short stories but finds grammar rules difficult. Knows basic concepts about plants and animals.',
       desiredLearningOutcomes: 'Improve multiplication skills, understand sentence structure better, and learn about the solar system.',
