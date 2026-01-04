@@ -21,17 +21,20 @@ export const subjects = [
     description: 'Numbers, shapes, and logic.',
     icon: Calculator,
     moduleCount: 15,
+    href: '/math',
   },
   {
     name: 'English',
     description: 'Reading, writing, and grammar.',
     icon: BookOpenText,
     moduleCount: 20,
+    href: '#',
   },
   {
     name: 'Science',
     description: 'Exploring the world around us.',
     icon: FlaskConical,
     moduleCount: 12,
+    href: '#',
   },
 ];

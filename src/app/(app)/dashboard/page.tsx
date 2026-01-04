@@ -56,7 +56,7 @@ export default function DashboardPage() {
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full">
-                  <Link href="#">
+                  <Link href={subject.href}>
                     Start Learning
                   </Link>
                 </Button>
