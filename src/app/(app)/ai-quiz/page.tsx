@@ -118,49 +118,51 @@ export default function AiQuizPage() {
     return (
       <div className="w-full max-w-2xl mx-auto">
         <Progress value={progress} className="mb-4" />
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl font-headline">Question {currentQuestionIndex + 1} of {quiz?.quiz.length}</CardTitle>
-            <CardDescription>Topic: {currentQuestion.topic}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-lg font-semibold mb-6">{currentQuestion.question}</p>
-            <RadioGroup
-              onValueChange={(value) => handleAnswer(currentQuestionIndex, parseInt(value))}
-              disabled={selectedAnswer !== undefined}
-              value={selectedAnswer?.toString()}
-            >
-              {currentQuestion.options.map((option, index) => {
-                 const isSelected = selectedAnswer === index;
-                 const isCorrect = currentQuestion.correctAnswerIndex === index;
-                 return (
-                    <FormItem
-                      key={index}
-                      className={cn(
-                        "flex items-center space-x-3 space-y-0 rounded-lg border p-4 transition-all",
-                        selectedAnswer !== undefined && isCorrect && "border-green-500 bg-green-500/10",
-                        selectedAnswer !== undefined && isSelected && !isCorrect && "border-red-500 bg-red-500/10"
-                      )}
-                    >
-                      <FormControl>
-                        <RadioGroupItem value={index.toString()} />
-                      </FormControl>
-                      <FormLabel className="font-normal w-full">{option}</FormLabel>
-                      {selectedAnswer !== undefined && isCorrect && <CheckCircle2 className="h-5 w-5 text-green-500" />}
-                      {selectedAnswer !== undefined && isSelected && !isCorrect && <XCircle className="h-5 w-5 text-red-500" />}
-                    </FormItem>
-                 );
-              })}
-            </RadioGroup>
-          </CardContent>
-          <CardFooter>
-            {selectedAnswer !== undefined && (
-              <Button onClick={goToNextQuestion} className="w-full">
-                {currentQuestionIndex === (quiz?.quiz.length ?? 0) - 1 ? 'Finish Quiz' : 'Next Question'}
-              </Button>
-            )}
-          </CardFooter>
-        </Card>
+        <Form {...form}>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl font-headline">Question {currentQuestionIndex + 1} of {quiz?.quiz.length}</CardTitle>
+              <CardDescription>Topic: {currentQuestion.topic}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg font-semibold mb-6">{currentQuestion.question}</p>
+              <RadioGroup
+                onValueChange={(value) => handleAnswer(currentQuestionIndex, parseInt(value))}
+                disabled={selectedAnswer !== undefined}
+                value={selectedAnswer?.toString()}
+              >
+                {currentQuestion.options.map((option, index) => {
+                   const isSelected = selectedAnswer === index;
+                   const isCorrect = currentQuestion.correctAnswerIndex === index;
+                   return (
+                      <FormItem
+                        key={index}
+                        className={cn(
+                          "flex items-center space-x-3 space-y-0 rounded-lg border p-4 transition-all",
+                          selectedAnswer !== undefined && isCorrect && "border-green-500 bg-green-500/10",
+                          selectedAnswer !== undefined && isSelected && !isCorrect && "border-red-500 bg-red-500/10"
+                        )}
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={index.toString()} />
+                        </FormControl>
+                        <FormLabel className="font-normal w-full">{option}</FormLabel>
+                        {selectedAnswer !== undefined && isCorrect && <CheckCircle2 className="h-5 w-5 text-green-500" />}
+                        {selectedAnswer !== undefined && isSelected && !isCorrect && <XCircle className="h-5 w-5 text-red-500" />}
+                      </FormItem>
+                   );
+                })}
+              </RadioGroup>
+            </CardContent>
+            <CardFooter>
+              {selectedAnswer !== undefined && (
+                <Button onClick={goToNextQuestion} className="w-full">
+                  {currentQuestionIndex === (quiz?.quiz.length ?? 0) - 1 ? 'Finish Quiz' : 'Next Question'}
+                </Button>
+              )}
+            </CardFooter>
+          </Card>
+        </Form>
       </div>
     );
   }
