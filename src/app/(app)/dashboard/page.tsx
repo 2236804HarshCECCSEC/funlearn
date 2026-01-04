@@ -13,11 +13,20 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { subjects } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
-import { useUser } from '@/firebase';
+import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
 
 export default function DashboardPage() {
-  const { user } = useUser();
-  
+  const { user, firestore } = useFirebase();
+
+  const userProgressQuery = useMemoFirebase(
+    () => (user ? collection(firestore, 'users', user.uid, 'progress') : null),
+    [user, firestore]
+  );
+  const { data: userProgress } = useCollection(userProgressQuery);
+
+  const lastProgress = userProgress?.[0]; // Get the first progress item as an example
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -25,20 +34,22 @@ export default function DashboardPage() {
         <p className="text-muted-foreground">Ready to start a new learning adventure today?</p>
       </div>
 
-      <Card className="bg-primary/10 border-primary/50">
-        <CardHeader>
-          <CardTitle className="font-headline">Continue Your Quest</CardTitle>
-          <CardDescription>You're doing great! You've completed 75% of "Fun with Fractions".</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Progress value={75} className="h-3" />
-        </CardContent>
-        <CardFooter>
-          <Button variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-            Jump Back In <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </CardFooter>
-      </Card>
+      {lastProgress && lastProgress.score > 0 && (
+        <Card className="bg-primary/10 border-primary/50">
+          <CardHeader>
+            <CardTitle className="font-headline">Continue Your Quest</CardTitle>
+            <CardDescription>You're doing great! You've completed {lastProgress.score}% of a module.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Progress value={lastProgress.score} className="h-3" />
+          </CardContent>
+          <CardFooter>
+            <Button variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+              Jump Back In <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
 
       <div>
         <h2 className="text-2xl font-bold font-headline mb-4">Choose a Subject</h2>

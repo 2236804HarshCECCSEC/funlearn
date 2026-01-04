@@ -9,8 +9,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { user as staticUser } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import {
   Trophy,
@@ -24,8 +22,8 @@ import {
   ChartConfig,
 } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { useDoc, useFirebase, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useCollection, useDoc, useFirebase, useMemoFirebase } from '@/firebase';
+import { collection, doc } from 'firebase/firestore';
 
 const chartData = [
   { subject: 'Maths', progress: 75, fill: 'var(--color-maths)' },
@@ -61,12 +59,25 @@ export default function ProfilePage() {
   );
   const { data: userProfile } = useDoc(userDocRef);
 
+  const userBadgesQuery = useMemoFirebase(
+    () => (user ? collection(firestore, 'users', user.uid, 'badges') : null),
+    [user, firestore]
+  );
+  const { data: userBadges } = useCollection(userBadgesQuery);
+
+  const userProgressQuery = useMemoFirebase(
+    () => (user ? collection(firestore, 'users', user.uid, 'progress') : null),
+    [user, firestore]
+  );
+  const { data: userProgress } = useCollection(userProgressQuery);
+
   const avatarImage = PlaceHolderImages.find((img) => img.id === 'user-avatar-2');
 
   const displayName = userProfile?.userName || user?.displayName || "Explorer";
   const level = userProfile?.level || 1;
   const points = userProfile?.points || 0;
-  const badges = staticUser.badges; // TODO: Fetch from firestore
+  const badges = userBadges || [];
+  const quizzesCompleted = userProgress?.filter(p => p.completed).length || 0;
 
   return (
     <div className="flex flex-col gap-8">
@@ -95,7 +106,7 @@ export default function ProfilePage() {
              </div>
              <div className="flex-1 flex flex-col items-center gap-2 p-4 bg-secondary rounded-lg">
                 <Zap className="w-8 h-8 text-primary" />
-                <p className="font-bold text-2xl">12</p>
+                <p className="font-bold text-2xl">{quizzesCompleted}</p>
                 <p className="text-sm text-muted-foreground">Quizzes Completed</p>
              </div>
           </div>
@@ -110,9 +121,9 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {badges.map((badgeInfo) => {
-              const badgeImage = PlaceHolderImages.find((img) => img.id === badgeInfo.id);
+              const badgeImage = PlaceHolderImages.find((img) => img.id === badgeInfo.badgeId);
               return (
-                <div key={badgeInfo.name} className="flex flex-col items-center text-center gap-2 p-2 rounded-lg hover:bg-secondary transition-colors">
+                <div key={badgeInfo.id} className="flex flex-col items-center text-center gap-2 p-2 rounded-lg hover:bg-secondary transition-colors">
                   {badgeImage ? (
                     <Image
                       src={badgeImage.imageUrl}
@@ -129,6 +140,9 @@ export default function ProfilePage() {
                 </div>
               );
             })}
+             {badges.length === 0 && (
+              <p className="text-muted-foreground col-span-full text-center">No badges earned yet. Keep learning!</p>
+            )}
           </CardContent>
         </Card>
 
