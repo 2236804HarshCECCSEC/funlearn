@@ -17,11 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useAuth, useUser } from '@/firebase';
-import { initiateEmailSignIn } from '@/firebase/non-blocking-login';
+import { useAuth, useUser, initiateEmailSignIn, initiateGoogleSignIn, setDocumentNonBlocking, useFirestore } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { getAdditionalUserInfo, UserCredential } from 'firebase/auth';
+import { doc } from 'firebase/firestore';
+
 
 const formSchema = z.object({
   email: z.string().email('Please enter a valid email address.'),
@@ -31,6 +33,7 @@ const formSchema = z.object({
 export default function LoginPage() {
   const loginImage = PlaceHolderImages.find((img) => img.id === 'login-hero');
   const auth = useAuth();
+  const firestore = useFirestore();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const { toast } = useToast();
@@ -45,6 +48,29 @@ export default function LoginPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     initiateEmailSignIn(auth, values.email, values.password);
+  }
+
+  function handleGoogleSignIn() {
+    initiateGoogleSignIn(auth, (credential: UserCredential) => {
+      const isNewUser = getAdditionalUserInfo(credential)?.isNewUser;
+      if (isNewUser) {
+        const newUser = credential.user;
+        const userDocRef = doc(firestore, 'users', newUser.uid);
+        const avatarImage = PlaceHolderImages.find((img) => img.id === 'user-avatar-2');
+
+        setDocumentNonBlocking(userDocRef, {
+          id: newUser.uid,
+          email: newUser.email,
+          userName: newUser.displayName,
+          avatar: newUser.photoURL || avatarImage?.imageUrl || '',
+          points: 0,
+        }, { merge: true });
+         toast({
+          title: 'Account Created!',
+          description: 'You have been successfully signed up.',
+        });
+      }
+    });
   }
 
   useEffect(() => {
@@ -107,7 +133,7 @@ export default function LoginPage() {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              <Button variant="outline" className="w-full" disabled>
+              <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
                 Login with Google
               </Button>
             </form>

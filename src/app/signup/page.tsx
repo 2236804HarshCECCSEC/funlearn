@@ -22,11 +22,12 @@ import {
   useUser,
   setDocumentNonBlocking,
   useFirestore,
+  initiateGoogleSignIn,
 } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAdditionalUserInfo, updateProfile, UserCredential } from 'firebase/auth';
 import { doc } from 'firebase/firestore';
 
 const formSchema = z.object({
@@ -89,6 +90,32 @@ export default function SignupPage() {
         description: error.message || 'Could not create account.',
       });
     }
+  }
+
+  function handleGoogleSignIn() {
+    initiateGoogleSignIn(auth, (credential: UserCredential) => {
+      const isNewUser = getAdditionalUserInfo(credential)?.isNewUser;
+      const newUser = credential.user;
+
+      if (isNewUser) {
+        const userDocRef = doc(firestore, 'users', newUser.uid);
+        const avatarImage = PlaceHolderImages.find((img) => img.id === 'user-avatar-2');
+
+        setDocumentNonBlocking(userDocRef, {
+          id: newUser.uid,
+          email: newUser.email,
+          userName: newUser.displayName,
+          avatar: newUser.photoURL || avatarImage?.imageUrl || '',
+          points: 0,
+        }, { merge: true });
+        
+        toast({
+          title: 'Account Created!',
+          description: 'You have been successfully signed up.',
+        });
+      }
+      // For both new and returning users, onAuthStateChanged will redirect to dashboard
+    });
   }
 
   useEffect(() => {
@@ -158,7 +185,7 @@ export default function SignupPage() {
               <Button type="submit" className="w-full">
                 Create an account
               </Button>
-              <Button variant="outline" className="w-full" disabled>
+              <Button variant="outline" className="w-full" onClick={handleGoogleSignIn}>
                 Sign up with Google
               </Button>
             </form>
