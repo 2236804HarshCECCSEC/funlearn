@@ -1,0 +1,326 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user account in the EduQuest system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "userName": {
+          "type": "string",
+          "description": "Username of the user."
+        },
+        "avatar": {
+          "type": "string",
+          "description": "URL of the user's avatar image.",
+          "format": "uri"
+        },
+        "points": {
+          "type": "number",
+          "description": "Total points earned by the user."
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "userName"
+      ]
+    },
+    "Module": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Module",
+      "type": "object",
+      "description": "Represents a learning module in Maths, English, or Science.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Module entity."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject of the module (Maths, English, Science)."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the module."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the module content."
+        },
+        "level": {
+          "type": "string",
+          "description": "Difficulty level of the module (easy, medium, hard)."
+        }
+      },
+      "required": [
+        "id",
+        "subject",
+        "title"
+      ]
+    },
+    "Quiz": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quiz",
+      "type": "object",
+      "description": "Represents a quiz associated with a learning module.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quiz entity."
+        },
+        "moduleId": {
+          "type": "string",
+          "description": "Reference to Module. (Relationship: Module 1:N Quiz)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the quiz."
+        },
+        "questions": {
+          "type": "array",
+          "description": "A list of questions in the quiz.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "moduleId",
+        "title",
+        "questions"
+      ]
+    },
+    "UserProgress": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProgress",
+      "type": "object",
+      "description": "Represents a user's progress in a specific module.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProgress entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N UserProgress)"
+        },
+        "moduleId": {
+          "type": "string",
+          "description": "Reference to Module. (Relationship: Module 1:N UserProgress)"
+        },
+        "score": {
+          "type": "number",
+          "description": "User's score in the module."
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Indicates whether the user has completed the module."
+        },
+        "lastAccessTime": {
+          "type": "string",
+          "description": "The last time the module was accessed.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "moduleId",
+        "score",
+        "completed"
+      ]
+    },
+    "Badge": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Badge",
+      "type": "object",
+      "description": "Represents a badge that a user can earn.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Badge entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the badge."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the badge and how to earn it."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the badge image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "imageUrl"
+      ]
+    },
+    "UserBadge": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserBadge",
+      "type": "object",
+      "description": "Represents the association between a user and a badge they have earned.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserBadge entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N UserBadge)"
+        },
+        "badgeId": {
+          "type": "string",
+          "description": "Reference to Badge. (Relationship: Badge 1:N UserBadge)"
+        },
+        "awardedDate": {
+          "type": "string",
+          "description": "Date when the badge was awarded to the user.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "badgeId",
+        "awardedDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile information. Path-based ownership enforced.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/modules/{moduleId}",
+        "definition": {
+          "entityName": "Module",
+          "schema": {
+            "$ref": "#/backend/entities/Module"
+          },
+          "description": "Stores information about learning modules.  No denormalized auth fields required, accessible to all users.",
+          "params": [
+            {
+              "name": "moduleId",
+              "description": "The unique identifier of the module."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/modules/{moduleId}/quizzes/{quizId}",
+        "definition": {
+          "entityName": "Quiz",
+          "schema": {
+            "$ref": "#/backend/entities/Quiz"
+          },
+          "description": "Stores quizzes associated with each module. Path-based relationship with Module.",
+          "params": [
+            {
+              "name": "moduleId",
+              "description": "The unique identifier of the parent module."
+            },
+            {
+              "name": "quizId",
+              "description": "The unique identifier of the quiz."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/progress/{progressId}",
+        "definition": {
+          "entityName": "UserProgress",
+          "schema": {
+            "$ref": "#/backend/entities/UserProgress"
+          },
+          "description": "Stores the progress of a user in a specific module. Path-based ownership enforced.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "progressId",
+              "description": "The unique identifier of the user's progress record."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/badges/{badgeId}",
+        "definition": {
+          "entityName": "Badge",
+          "schema": {
+            "$ref": "#/backend/entities/Badge"
+          },
+          "description": "Stores information about available badges. No denormalized auth fields required, publicly accessible.",
+          "params": [
+            {
+              "name": "badgeId",
+              "description": "The unique identifier of the badge."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/badges/{userBadgeId}",
+        "definition": {
+          "entityName": "UserBadge",
+          "schema": {
+            "$ref": "#/backend/entities/UserBadge"
+          },
+          "description": "Stores the badges awarded to each user. Path-based ownership enforced.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "userBadgeId",
+              "description": "The unique identifier of the user badge assignment."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support EduQuest's interactive learning environment for children. It prioritizes authorization independence and simplifies security rules by denormalizing data and segregating collections based on access needs. User-owned data is structured hierarchically, enabling clear ownership-based security. Collaborative data, if any, would leverage membership maps for authorization.\n\n*   **Authorization Independence:** User progress is stored under `/users/{userId}/progress/{progressId}`, ensuring direct ownership without needing to check parent documents. No `get()` calls are required for authorization.\n*   **Structural Segregation:** Each entity type is stored in its own collection, and user-specific data is stored in user-owned subcollections to create a homogeneous security posture. Publicly accessible data, such as a list of available modules, is segregated from private user data.\n*   **QAPs (Queries are not Filters):** Security rules can efficiently validate queries based on the path structure. For example, listing modules only requires checking if the user is authenticated, rather than filtering based on module content. User progress can be listed using the path `/users/{userId}/progress`, which can be secured by verifying that `request.auth.uid == userId`.\n*   **Invariants:** The structure supports invariants such as ownership, timestamps, and denormalized data by directly embedding relevant fields within documents, allowing security rules to enforce consistency.\n\n**Denormalization Strategy:** Specifically, if modules had collaborative aspects (e.g., group projects), the `members` map from a potential `Group` entity would be denormalized into the `Module` document itself to avoid requiring `get()` calls in the security rules.\n\n**Overall:** This structure ensures clear authorization rules, efficient queries, and supports atomic operations required for features like personalized learning paths and quiz generation."
+  }
+}

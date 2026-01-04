@@ -1,0 +1,131 @@
+/**
+ * Core Philosophy: This ruleset enforces a strict user-ownership model for all private data,
+ * combined with a public, read-only model for shared educational content like modules and badges.
+ * The primary goal is to ensure users can only access and manage their own information, while
+ * educational materials are freely available to all authenticated participants.
+ *
+ * Data Structure: The data is organized into top-level collections for public content (`modules`,
+ * `badges`) and user profiles (`users`). All user-specific, private data (like `progress` and
+ * earned `badges`) is stored in subcollections under the path `/users/{userId}`, which creates
+ * a clear and secure data boundary for each user.
+ *
+ * Key Security Decisions:
+ * - User Isolation: A user can only access documents within their own `/users/{userId}` data tree.
+ *   Listing or reading other users' profiles or progress is strictly forbidden.
+ * - Read-Only Public Content: Core educational content (`modules`, `quizzes`, `badges`) is
+ *   readable by any authenticated user but is not writable by clients. This assumes that content
+ *   is managed by administrators via a separate, trusted environment (e.g., the Firebase Console
+ *   or an Admin SDK). This prevents vandalism and unauthorized changes.
+ * - No User Listing: To protect user privacy, it is not possible to list all documents in the
+ *   top-level `users` collection.
+ *
+ * Denormalization for Authorization: This ruleset relies on path-based security. For user-specific
+ * documents (e.g., in the `/users/{userId}/progress` collection), the document data must contain a `userId`
+ * field that matches the `userId` in the path. This ensures data integrity and simplifies rules by
+ * avoiding costly cross-document `get()` calls for authorization checks.
+ *
+ * Structural Segregation: Public, shared data (`modules`, `badges`) is stored in separate top-level
+ * collections from private, user-specific data (`/users/{userId}/...`). This separation creates a
+ * simple and highly performant security model, as rules for private and public data do not need
+ * to be mixed within the same collection.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions to improve readability and reuse of logic.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * @description Manages user profile data. A user can create their own profile,
+     * but can only read, update, or delete their own existing profile.
+     * @path /users/{userId}
+     * @allow (create) An authenticated user with UID 'user123' creating their own profile at '/users/user123'.
+     * @deny (get) User 'user123' trying to read the profile of 'user456' at '/users/user456'.
+     * @deny (list) Any user trying to list all documents in the '/users' collection.
+     * @principle Enforces strict document ownership and prevents enumeration of all users.
+     */
+    match /users/{userId} {
+      allow get, update, delete: if isOwner(userId) && resource != null;
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+    }
+
+    /**
+     * @description Tracks a user's progress in a specific module. Only the user can manage
+     * their own progress records.
+     * @path /users/{userId}/progress/{progressId}
+     * @allow (create) User 'user123' creating a new progress record at '/users/user123/progress/math101'.
+     * @deny (update) User 'user456' trying to update a progress record for 'user123'.
+     * @principle Restricts access to a user's own data tree for privacy and data integrity.
+     */
+    match /users/{userId}/progress/{progressId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update, delete: if isOwner(userId) && resource != null;
+    }
+
+    /**
+     * @description Stores badges that have been awarded to a specific user. Only the user can
+     * view their own badges.
+     * @path /users/{userId}/badges/{userBadgeId}
+     * @allow (list) User 'user123' listing all their earned badges at '/users/user123/badges'.
+     * @deny (create) User 'user456' trying to award a badge to 'user123'.
+     * @principle Restricts access to a user's own data tree for privacy and data integrity.
+     */
+    match /users/{userId}/badges/{userBadgeId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update, delete: if isOwner(userId) && resource != null;
+    }
+
+    /**
+     * @description Stores public information about learning modules. This content is
+     * readable by any authenticated user but cannot be modified by clients.
+     * @path /modules/{moduleId}
+     * @allow (get) Any signed-in user reading the 'Algebra Basics' module document.
+     * @deny (create) Any client trying to create a new module document.
+     * @principle Secures shared content as read-only for clients, assuming it's managed by admins.
+     */
+    match /modules/{moduleId} {
+      allow get, list: if isSignedIn();
+      // CRITICAL: Cannot implement owner-only writes. The 'Module' entity is missing an 'ownerId' or 'authorId' field.
+      // Writes are disabled to prevent unauthorized content modification.
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+
+    /**
+     * @description Stores quizzes associated with a module. Quizzes are public and read-only
+     * for all authenticated users.
+     * @path /modules/{moduleId}/quizzes/{quizId}
+     * @allow (get) Any signed-in user reading a quiz for a public module.
+     * @deny (update) Any client trying to change the questions in a quiz.
+     * @principle Secures shared content as read-only for clients, inheriting the parent collection's posture.
+     */
+    match /modules/{moduleId}/quizzes/{quizId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Stores public information about available badges. This content is
+     * readable by any authenticated user but cannot be modified by clients.
+     * @path /badges/{badgeId}
+     * @allow (list) Any signed-in user listing all available badges in the application.
+     * @deny (delete) Any client trying to delete a badge document.
+     * @principle Secures shared content as read-only for clients, assuming it's managed by admins.
+     */
+    match /badges/{badgeId} {
+      allow get, list: if isSignedIn();
+      // CRITICAL: Cannot implement owner-only writes. The 'Badge' entity is missing an 'ownerId' or 'creatorId' field.
+      // Writes are disabled to prevent unauthorized content modification.
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+  }
+}
