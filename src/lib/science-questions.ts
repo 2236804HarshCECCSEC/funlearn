@@ -1,3 +1,4 @@
+
 export interface MCQ {
   question: string;
   options: string[];
@@ -177,4 +178,281 @@ export const scienceLevels: ScienceLevel[] = [
       { question: 'If you mix blue and yellow paint, what color do you get?', options: ['Red', 'Orange', 'Green', 'Purple'], correctAnswer: 'Green' },
     ],
   },
+  {
+    level: 11,
+    title: 'Food Groups',
+    description: 'Understanding different food groups.',
+    questions: [
+        { question: 'Which food group does bread belong to?', options: ['Fruits', 'Vegetables', 'Grains', 'Dairy'], correctAnswer: 'Grains' },
+        { question: 'Milk and cheese are part of which food group?', options: ['Meat', 'Grains', 'Dairy', 'Fats'], correctAnswer: 'Dairy' },
+        { question: 'Which of these is a good source of protein?', options: ['Candy', 'Chicken', 'Bread', 'Juice'], correctAnswer: 'Chicken' },
+        { question: 'Fruits and vegetables give us important...', options: ['Fats', 'Vitamins', 'Sugars', 'Salts'], correctAnswer: 'Vitamins' },
+    ],
+},
+{
+    level: 12,
+    title: 'Simple Machines',
+    description: 'Identifying simple machines.',
+    questions: [
+        { question: 'A seesaw is an example of a...', options: ['Lever', 'Pulley', 'Wedge', 'Screw'], correctAnswer: 'Lever' },
+        { question: 'What simple machine is used to hold things together?', options: ['Lever', 'Pulley', 'Wedge', 'Screw'], correctAnswer: 'Screw' },
+        { question: 'A ramp is a type of...', options: ['Inclined Plane', 'Wheel and Axle', 'Pulley', 'Lever'], correctAnswer: 'Inclined Plane' },
+        { question: 'What do you use to raise a flag on a flagpole?', options: ['Lever', 'Pulley', 'Wedge', 'Screw'], correctAnswer: 'Pulley' },
+    ],
+},
+{
+    level: 13,
+    title: 'Magnets',
+    description: 'Understanding magnetism.',
+    questions: [
+        { question: 'What material is attracted to a magnet?', options: ['Wood', 'Plastic', 'Iron', 'Glass'], correctAnswer: 'Iron' },
+        { question: 'What happens when two north poles of a magnet are brought together?', options: ['They attract', 'They repel', 'Nothing', 'They stick'], correctAnswer: 'They repel' },
+        { question: 'A magnet has two poles, a north pole and a ___ pole.', options: ['East', 'West', 'South', 'Top'], correctAnswer: 'South' },
+        { question: 'The area around a magnet where its force can be felt is called the...', options: ['Magnetic field', 'Magnetic zone', 'Magnetic space', 'Magnetic air'], correctAnswer: 'Magnetic field' },
+    ],
+},
+{
+    level: 14,
+    title: 'Sound and Light',
+    description: 'Basics of sound and light.',
+    questions: [
+        { question: 'Sound is caused by...', options: ['Light', 'Heat', 'Vibrations', 'Silence'], correctAnswer: 'Vibrations' },
+        { question: 'Which of these is a source of light?', options: ['A rock', 'The moon', 'A lamp', 'A book'], correctAnswer: 'A lamp' },
+        { question: 'When light is blocked by an object, it creates a...', options: ['Shadow', 'Reflection', 'Rainbow', 'Sound'], correctAnswer: 'Shadow' },
+        { question: 'Sound travels fastest through...', options: ['Air', 'Water', 'Solids', 'Vacuum'], correctAnswer: 'Solids' },
+    ],
+},
+{
+    level: 15,
+    title: 'Weather and Seasons',
+    description: 'Understanding weather phenomena.',
+    questions: [
+        { question: 'What instrument is used to measure temperature?', options: ['Barometer', 'Anemometer', 'Thermometer', 'Rain gauge'], correctAnswer: 'Thermometer' },
+        { question: 'Which season comes after winter?', options: ['Summer', 'Autumn', 'Spring', 'Rainy'], correctAnswer: 'Spring' },
+        { question: 'What is a tornado?', options: ['A heavy rainstorm', 'A spinning column of air', 'A large snowstorm', 'A sunny day'], correctAnswer: 'A spinning column of air' },
+        { question: 'What causes the seasons?', options: ['The Earth\'s distance from the sun', 'The tilt of the Earth\'s axis', 'The phases of the moon', 'The speed of the Earth\'s rotation'], correctAnswer: 'The tilt of the Earth\'s axis' },
+    ],
+},
+{
+    level: 16,
+    title: 'The Skeletal System',
+    description: 'Learning about bones.',
+    questions: [
+        { question: 'What is the main job of the skeletal system?', options: ['To pump blood', 'To digest food', 'To provide support for the body', 'To help us think'], correctAnswer: 'To provide support for the body' },
+        { question: 'What is the bone in your head called?', options: ['Spine', 'Ribs', 'Skull', 'Femur'], correctAnswer: 'Skull' },
+        { question: 'How many bones are in an adult human body?', options: ['About 100', 'About 206', 'About 300', 'About 500'], correctAnswer: 'About 206' },
+        { question: 'The bones in your back are called the...', options: ['Skull', 'Ribs', 'Spine', 'Pelvis'], correctAnswer: 'Spine' },
+    ],
+},
+{
+    level: 17,
+    title: 'The Muscular System',
+    description: 'How muscles work.',
+    questions: [
+        { question: 'What do muscles do?', options: ['Help us move', 'Protect our organs', 'Produce blood cells', 'Filter waste'], correctAnswer: 'Help us move' },
+        { question: 'Which muscle is in your chest and helps you breathe?', options: ['Bicep', 'Diaphragm', 'Quadricep', 'Gluteus'], correctAnswer: 'Diaphragm' },
+        { question: 'What is the strong muscle in your heart?', options: ['Cardiac muscle', 'Smooth muscle', 'Skeletal muscle', 'Bicep'], correctAnswer: 'Cardiac muscle' },
+        { question: 'To make your muscles stronger, you should...', options: ['Sleep all day', 'Eat only candy', 'Exercise regularly', 'Watch TV'], correctAnswer: 'Exercise regularly' },
+    ],
+},
+{
+    level: 18,
+    title: 'The Circulatory System',
+    description: 'Blood and heart.',
+    questions: [
+        { question: 'What does the circulatory system transport around the body?', options: ['Air', 'Food', 'Blood', 'Water'], correctAnswer: 'Blood' },
+        { question: 'Which organ pumps blood?', options: ['Lungs', 'Stomach', 'Heart', 'Brain'], correctAnswer: 'Heart' },
+        { question: 'What is the liquid part of blood?', options: ['Plasma', 'Platelets', 'Red cells', 'White cells'], correctAnswer: 'Plasma' },
+        { question: 'Which blood vessels carry blood away from the heart?', options: ['Veins', 'Arteries', 'Capillaries', 'Nerves'], correctAnswer: 'Arteries' },
+    ],
+},
+{
+    level: 19,
+    title: 'The Respiratory System',
+    description: 'Breathing and lungs.',
+    questions: [
+        { question: 'Which organs do you use for breathing?', options: ['Stomach', 'Lungs', 'Kidneys', 'Liver'], correctAnswer: 'Lungs' },
+        { question: 'What gas do we breathe in?', options: ['Carbon dioxide', 'Oxygen', 'Nitrogen', 'Helium'], correctAnswer: 'Oxygen' },
+        { question: 'What gas do we breathe out?', options: ['Carbon dioxide', 'Oxygen', 'Nitrogen', 'Hydrogen'], correctAnswer: 'Carbon dioxide' },
+        { question: 'The tube that carries air to your lungs is the...', options: ['Esophagus', 'Trachea', 'Intestine', 'Artery'], correctAnswer: 'Trachea' },
+    ],
+},
+{
+    level: 20,
+    title: 'The Nervous System',
+    description: 'Brain and nerves.',
+    questions: [
+        { question: 'What is the control center of the nervous system?', options: ['Heart', 'Stomach', 'Brain', 'Lungs'], correctAnswer: 'Brain' },
+        { question: 'What carries messages from your body to your brain?', options: ['Bones', 'Muscles', 'Nerves', 'Blood vessels'], correctAnswer: 'Nerves' },
+        { question: 'Which part of the brain helps with balance and coordination?', options: ['Cerebrum', 'Cerebellum', 'Brainstem', 'Frontal lobe'], correctAnswer: 'Cerebellum' },
+        { question: 'Your five senses are part of which system?', options: ['Skeletal', 'Muscular', 'Nervous', 'Digestive'], correctAnswer: 'Nervous' },
+    ],
+},
+{
+    level: 21,
+    title: 'Electricity',
+    description: 'Basic concepts of electricity.',
+    questions: [
+        { question: 'What is the flow of electrons called?', options: ['Gravity', 'Magnetism', 'Electricity', 'Light'], correctAnswer: 'Electricity' },
+        { question: 'Which material is a good conductor of electricity?', options: ['Rubber', 'Wood', 'Copper', 'Plastic'], correctAnswer: 'Copper' },
+        { question: 'A material that does not allow electricity to pass through it is called an...', options: ['Insulator', 'Conductor', 'Amplifier', 'Resistor'], correctAnswer: 'Insulator' },
+        { question: 'What is a complete path for electricity to flow called?', options: ['A circuit', 'A current', 'A voltage', 'A power'], correctAnswer: 'A circuit' },
+    ],
+},
+{
+    level: 22,
+    title: 'Famous Scientists',
+    description: 'Recognizing famous scientists.',
+    questions: [
+        { question: 'Who is known for the theory of relativity?', options: ['Isaac Newton', 'Albert Einstein', 'Galileo Galilei', 'Marie Curie'], correctAnswer: 'Albert Einstein' },
+        { question: 'Who discovered gravity when an apple fell on his head?', options: ['Isaac Newton', 'Albert Einstein', 'Galileo Galilei', 'Charles Darwin'], correctAnswer: 'Isaac Newton' },
+        { question: 'Who is famous for her work on radioactivity?', options: ['Rosalind Franklin', 'Jane Goodall', 'Marie Curie', 'Ada Lovelace'], correctAnswer: 'Marie Curie' },
+        { question: 'Who invented the telephone?', options: ['Thomas Edison', 'Alexander Graham Bell', 'Nikola Tesla', 'Guglielmo Marconi'], correctAnswer: 'Alexander Graham Bell' },
+    ],
+},
+{
+    level: 23,
+    title: 'Inventions and Discoveries',
+    description: 'Matching inventions to their use.',
+    questions: [
+        { question: 'What was the wheel used for?', options: ['Transportation', 'Communication', 'Cooking', 'Writing'], correctAnswer: 'Transportation' },
+        { question: 'The printing press made it easier to produce...', options: ['Food', 'Clothes', 'Books', 'Houses'], correctAnswer: 'Books' },
+        { question: 'The internet allows for...', options: ['Global communication', 'Time travel', 'Space exploration', 'Weather control'], correctAnswer: 'Global communication' },
+        { question: 'Penicillin is a type of...', options: ['Vaccine', 'Antibiotic', 'Painkiller', 'Vitamin'], correctAnswer: 'Antibiotic' },
+    ],
+},
+{
+    level: 24,
+    title: 'Chemical Reactions',
+    description: 'Simple chemical reactions.',
+    questions: [
+        { question: 'What happens when you mix baking soda and vinegar?', options: ['It gets cold', 'It fizzes and produces gas', 'It turns into a solid', 'Nothing happens'], correctAnswer: 'It fizzes and produces gas' },
+        { question: 'Rusting is a chemical reaction of iron with...', options: ['Water and oxygen', 'Nitrogen', 'Carbon dioxide', 'Sunlight'], correctAnswer: 'Water and oxygen' },
+        { question: 'Burning wood is an example of a...', options: ['Physical change', 'Chemical change', 'State change', 'No change'], correctAnswer: 'Chemical change' },
+        { question: 'What is a chemical symbol?', options: ['A short way to write an element', 'A secret code', 'A type of equation', 'A drawing of an atom'], correctAnswer: 'A short way to write an element' },
+    ],
+},
+{
+    level: 25,
+    title: 'Ecology',
+    description: 'Interactions in ecosystems.',
+    questions: [
+        { question: 'What is an ecosystem?', options: ['A single animal', 'A community of living and non-living things', 'Just the plants in an area', 'A type of weather'], correctAnswer: 'A community of living and non-living things' },
+        { question: 'An animal that hunts other animals is a...', options: ['Prey', 'Predator', 'Herbivore', 'Producer'], correctAnswer: 'Predator' },
+        { question: 'What is camouflage?', options: ['A type of food', 'A way animals hide by blending in', 'A migration pattern', 'A mating dance'], correctAnswer: 'A way animals hide by blending in' },
+        { question: 'Deforestation is the cutting down of...', options: ['Mountains', 'Forests', 'Rivers', 'Cities'], correctAnswer: 'Forests' },
+    ],
+},
+{
+    level: 26,
+    title: 'Geology',
+    description: 'Earth science basics.',
+    questions: [
+        { question: 'What is the hot liquid rock inside the Earth called?', options: ['Lava', 'Magma', 'Obsidian', 'Granite'], correctAnswer: 'Magma' },
+        { question: 'What is a fossil?', options: ['A type of rock', 'A living dinosaur', 'The preserved remains of an ancient organism', 'A kind of crystal'], correctAnswer: 'The preserved remains of an ancient organism' },
+        { question: 'What causes earthquakes?', options: ['Heavy rain', 'Strong winds', 'Movement of tectonic plates', 'Volcanic eruptions'], correctAnswer: 'Movement of tectonic plates' },
+        { question: 'What are the three main types of rocks?', options: ['Hard, Soft, Medium', 'Igneous, Sedimentary, Metamorphic', 'Big, Small, Tiny', 'Light, Dark, Colored'], correctAnswer: 'Igneous, Sedimentary, Metamorphic' },
+    ],
+},
+{
+    level: 27,
+    title: 'Astronomy',
+    description: 'Beyond our solar system.',
+    questions: [
+        { question: 'What is a group of stars forming a pattern called?', options: ['A galaxy', 'A nebula', 'A constellation', 'A solar system'], correctAnswer: 'A constellation' },
+        { question: 'What is a black hole?', options: ['A dark star', 'A hole in space', 'An area with gravity so strong nothing can escape', 'A type of planet'], correctAnswer: 'An area with gravity so strong nothing can escape' },
+        { question: 'Our sun is a...', options: ['Planet', 'Star', 'Galaxy', 'Moon'], correctAnswer: 'Star' },
+        { question: 'What is the speed of light?', options: ['Very slow', 'The fastest speed possible', 'Same as the speed of sound', 'Variable'], correctAnswer: 'The fastest speed possible' },
+    ],
+},
+{
+    level: 28,
+    title: 'Botany',
+    description: 'The study of plants.',
+    questions: [
+        { question: 'What is photosynthesis?', options: ['How plants sleep', 'How plants make their own food', 'How plants drink water', 'How plants reproduce'], correctAnswer: 'How plants make their own food' },
+        { question: 'What part of the flower produces pollen?', options: ['Petal', 'Sepal', 'Stamen', 'Pistil'], correctAnswer: 'Stamen' },
+        { question: 'How do seeds travel?', options: ['Wind, water, animals', 'Only by planting', 'They do not travel', 'By car'], correctAnswer: 'Wind, water, animals' },
+        { question: 'What is the green pigment in leaves called?', options: ['Chlorophyll', 'Melanin', 'Hemoglobin', 'Carotene'], correctAnswer: 'Chlorophyll' },
+    ],
+},
+{
+    level: 29,
+    title: 'Zoology',
+    description: 'The study of animals.',
+    questions: [
+        { question: 'What is an animal with a backbone called?', options: ['Invertebrate', 'Vertebrate', 'Insect', 'Jellyfish'], correctAnswer: 'Vertebrate' },
+        { question: 'What is metamorphosis?', options: ['A type of migration', 'A change in body form', 'A way of hunting', 'A defense mechanism'], correctAnswer: 'A change in body form' },
+        { question: 'Which of these animals is a mammal?', options: ['Shark', 'Frog', 'Eagle', 'Whale'], correctAnswer: 'Whale' },
+        { question: 'What is hibernation?', options: ['A long sleep during winter', 'Traveling to warmer places', 'Shedding skin', 'Changing color'], correctAnswer: 'A long sleep during winter' },
+    ],
+},
+{
+    level: 30,
+    title: 'Physics Fun',
+    description: 'Basic physics principles.',
+    questions: [
+        { question: 'What is friction?', options: ['A force that helps things move', 'A force that opposes motion', 'A type of energy', 'A kind of magnet'], correctAnswer: 'A force that opposes motion' },
+        { question: 'For every action, there is an equal and opposite...', options: ['Reaction', 'Force', 'Energy', 'Motion'], correctAnswer: 'Reaction' },
+        { question: 'What is density?', options: ['How heavy something is', 'How big something is', 'How much mass is in a certain volume', 'How fast something falls'], correctAnswer: 'How much mass is in a certain volume' },
+        { question: 'Why do things fall to the ground?', options: ['Magnetism', 'Gravity', 'Air pressure', 'Friction'], correctAnswer: 'Gravity' },
+    ],
+},
+{
+    level: 31,
+    title: 'The Scientific Method',
+    description: 'Steps of the scientific method.',
+    questions: [
+        { question: 'What is the first step of the scientific method?', options: ['Experiment', 'Conclusion', 'Observation/Question', 'Hypothesis'], correctAnswer: 'Observation/Question' },
+        { question: 'What is a hypothesis?', options: ['A proven fact', 'An educated guess', 'The final answer', 'A type of experiment'], correctAnswer: 'An educated guess' },
+        { question: 'What do you do after you form a hypothesis?', options: ['Draw a conclusion', 'Conduct an experiment', 'Ask a question', 'Share your results'], correctAnswer: 'Conduct an experiment' },
+        { question: 'The final step is to...', options: ['Analyze data and draw a conclusion', 'Form a hypothesis', 'Ask a question', 'Do background research'], correctAnswer: 'Analyze data and draw a conclusion' },
+    ],
+},
+{
+    level: 32,
+    title: 'Biomes',
+    description: 'Different types of biomes.',
+    questions: [
+        { question: 'Which biome is very dry and hot?', options: ['Tundra', 'Rainforest', 'Desert', 'Grassland'], correctAnswer: 'Desert' },
+        { question: 'Which biome has the most biodiversity?', options: ['Tundra', 'Rainforest', 'Desert', 'Taiga'], correctAnswer: 'Rainforest' },
+        { question: 'Which biome is characterized by evergreen trees and cold winters?', options: ['Savanna', 'Taiga', 'Desert', 'Rainforest'], correctAnswer: 'Taiga' },
+        { question: 'What is the largest biome on Earth?', options: ['Desert', 'Forest', 'Aquatic', 'Tundra'], correctAnswer: 'Aquatic' },
+    ],
+},
+{
+    level: 33,
+    title: 'Conservation',
+    description: 'Protecting our planet.',
+    questions: [
+        { question: 'What does "endangered species" mean?', options: ['A species that is dangerous', 'A species at risk of extinction', 'A newly discovered species', 'A species that lives in caves'], correctAnswer: 'A species at risk of extinction' },
+        { question: 'What are the 3 R\'s of conservation?', options: ['Read, Write, Arithmetic', 'Reduce, Reuse, Recycle', 'Run, Rest, Repeat', 'Rock, Roll, Rhyme'], correctAnswer: 'Reduce, Reuse, Recycle' },
+        { question: 'What is a major cause of air pollution?', options: ['Planting trees', 'Burning fossil fuels', 'Using solar power', 'Recycling'], correctAnswer: 'Burning fossil fuels' },
+        { question: 'Why is it important to conserve water?', options: ['It is a limited resource', 'It is expensive', 'It is difficult to find', 'All of the above'], correctAnswer: 'All of the above' },
+    ],
+},
+{
+    level: 34,
+    title: 'Human Impact',
+    description: 'How humans affect the environment.',
+    questions: [
+        { question: 'What is global warming?', options: ['The Earth getting closer to the sun', 'The increase in Earth\'s average temperature', 'A natural cycle of the Earth', 'A type of weather'], correctAnswer: 'The increase in Earth\'s average temperature' },
+        { question: 'What is a greenhouse gas?', options: ['A gas that is green', 'A gas that traps heat in the atmosphere', 'A gas used in greenhouses', 'A gas that cools the Earth'], correctAnswer: 'A gas that traps heat in the atmosphere' },
+        { question: 'What is an invasive species?', options: ['A species that is shy', 'A species that is not native and causes harm', 'A species that is very friendly', 'A species that lives underground'], correctAnswer: 'A species that is not native and causes harm' },
+        { question: 'What is a way to reduce your carbon footprint?', options: ['Drive a car everywhere', 'Use less electricity', 'Leave the water running', 'Use plastic bags'], correctAnswer: 'Use less electricity' },
+    ],
+},
+{
+    level: 35,
+    title: 'Final Science Challenge',
+    description: 'A mix of all scientific concepts.',
+    questions: [
+        { question: 'What is the chemical formula for table salt?', options: ['H2O', 'CO2', 'NaCl', 'O2'], correctAnswer: 'NaCl' },
+        { question: 'Which planet is known for its rings?', options: ['Jupiter', 'Saturn', 'Uranus', 'Neptune'], correctAnswer: 'Saturn' },
+        { question: 'What is the powerhouse of the cell?', options: ['Nucleus', 'Ribosome', 'Mitochondria', 'Cell membrane'], correctAnswer: 'Mitochondria' },
+        { question: 'What is the pH of a neutral substance like pure water?', options: ['0', '7', '14', '1'], correctAnswer: '7' },
+    ],
+},
 ];
+
+    
