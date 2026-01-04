@@ -34,11 +34,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       router.push('/');
     }
   }, [user, isUserLoading, router]);
-  
+
   if (isUserLoading) {
     return <div>Loading...</div>;
   }
-  
+
   if (!user) {
     return null;
   }
