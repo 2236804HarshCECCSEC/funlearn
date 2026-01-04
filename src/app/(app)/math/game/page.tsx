@@ -14,6 +14,9 @@ import { Input } from '@/components/ui/input';
 import { Calculator, Check, ChevronsRight, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useFirebase } from '@/firebase';
+import { doc, increment, updateDoc } from 'firebase/firestore';
+
 
 type Operator = '+' | '-';
 
@@ -41,6 +44,7 @@ function generateProblem(): Problem {
 }
 
 export default function MathGamePage() {
+  const { user, firestore } = useFirebase();
   const [problem, setProblem] = useState<Problem | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [message, setMessage] = useState('');
@@ -53,12 +57,16 @@ export default function MathGamePage() {
 
   const checkAnswer = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!problem) return;
+    if (!problem || !user) return;
     const answer = parseInt(userAnswer, 10);
     if (answer === problem.answer) {
       setScore(score + 1);
       setMessage('Correct! Great job!');
       setIsCorrect(true);
+      const userRef = doc(firestore, 'users', user.uid);
+      updateDoc(userRef, {
+        points: increment(1),
+      });
     } else {
       setMessage(`Not quite! The correct answer was ${problem.answer}.`);
       setIsCorrect(false);

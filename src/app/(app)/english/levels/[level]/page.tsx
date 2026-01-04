@@ -17,7 +17,7 @@ import { CheckCircle2, XCircle, Trophy, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from '@/firebase';
-import { doc, serverTimestamp, collection } from 'firebase/firestore';
+import { doc, serverTimestamp, collection, updateDoc, increment } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 
 const PASSING_SCORE_PERCENTAGE = 70;
@@ -58,6 +58,12 @@ export default function EnglishLevelPage() {
     setSelectedAnswers((prev) => ({ ...prev, [currentQuestionIndex]: answer }));
     if (answer === currentQuestion.correctAnswer) {
       setScore((prev) => prev + 1);
+      if(user) {
+        const userRef = doc(firestore, "users", user.uid);
+        updateDoc(userRef, {
+            points: increment(1)
+        });
+      }
     }
   };
   
