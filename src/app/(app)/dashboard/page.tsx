@@ -10,11 +10,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { ArrowRight, Calculator, BookOpen, FlaskConical } from 'lucide-react';
-import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
-import { useMemo } from 'react';
+import { Calculator, BookOpen, FlaskConical } from 'lucide-react';
+import { useFirebase } from '@/firebase';
 
 const subjects = [
   {
@@ -44,43 +41,7 @@ const subjects = [
 ];
 
 export default function DashboardPage() {
-  const { user, firestore } = useFirebase();
-
-  const userProgressQuery = useMemoFirebase(
-    () => (user ? collection(firestore, 'users', user.uid, 'progress') : null),
-    [user, firestore]
-  );
-  const { data: userProgress } = useCollection(userProgressQuery);
-
-  const lastProgress = useMemo(() => {
-    if (!userProgress || userProgress.length === 0) return null;
-    
-    const sortedProgress = [...userProgress]
-      .filter(p => p.lastAccessTime)
-      .sort((a, b) => {
-        const timeA = a.lastAccessTime?.toDate()?.getTime() || 0;
-        const timeB = b.lastAccessTime?.toDate()?.getTime() || 0;
-        return timeB - timeA;
-      });
-
-    return sortedProgress.find(p => !p.completed) || sortedProgress[0] || null;
-  }, [userProgress]);
-
-  const lastProgressInfo = useMemo(() => {
-    if (!lastProgress) return null;
-
-    const [subject, level] = lastProgress.moduleId.split('-');
-    const subjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
-    
-    return {
-      subject,
-      level,
-      subjectName,
-      href: `/${subject}/levels/${level}`,
-      description: `You're working on ${subjectName} Level ${level}.`
-    };
-  }, [lastProgress]);
-
+  const { user } = useFirebase();
 
   return (
     <div className="flex flex-col gap-8">
@@ -88,28 +49,6 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold font-headline">Welcome back, {user?.displayName || 'Explorer'}!</h1>
         <p className="text-muted-foreground">Ready to start a new learning adventure today?</p>
       </div>
-
-      {lastProgress && lastProgressInfo && (
-        <Card className="bg-primary/10 border-primary/50">
-          <CardHeader>
-            <CardTitle className="font-headline">Continue Your Quest</CardTitle>
-            <CardDescription>{lastProgressInfo.description}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium">{lastProgress.score}%</span>
-              <Progress value={lastProgress.score} className="h-3 flex-1" />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button asChild variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Link href={lastProgressInfo.href}>
-                Jump Back In <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardFooter>
-        </Card>
-      )}
 
       <div>
         <h2 className="text-2xl font-bold font-headline mb-4">Choose a Subject</h2>
