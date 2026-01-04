@@ -16,10 +16,16 @@ import { Progress } from '@/components/ui/progress';
 import { CheckCircle2, XCircle, Trophy, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useFirebase, setDocumentNonBlocking } from '@/firebase';
+import { doc, serverTimestamp } from 'firebase/firestore';
+
+const PASSING_SCORE_PERCENTAGE = 70;
 
 export default function EnglishLevelPage() {
   const router = useRouter();
   const params = useParams();
+  const { user, firestore } = useFirebase();
+
   const levelNumber = parseInt(params.level as string, 10);
   const level = englishLevels.find((l) => l.level === levelNumber);
 
@@ -64,9 +70,28 @@ export default function EnglishLevelPage() {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
+      handleQuizCompletion();
       setQuizState('results');
     }
   };
+
+  const handleQuizCompletion = () => {
+    if (!user || !level) return;
+    const finalScore = Math.round((score / questions.length) * 100);
+    const isCompleted = finalScore >= PASSING_SCORE_PERCENTAGE;
+    
+    const moduleId = `english-${level.level}`;
+    const progressRef = doc(firestore, 'users', user.uid, 'progress', moduleId);
+
+    setDocumentNonBlocking(progressRef, {
+      id: moduleId,
+      userId: user.uid,
+      moduleId: moduleId,
+      score: finalScore,
+      completed: isCompleted,
+      lastAccessTime: serverTimestamp(),
+    }, { merge: true });
+  }
 
   const resetQuiz = () => {
     setCurrentQuestionIndex(0);
@@ -76,16 +101,20 @@ export default function EnglishLevelPage() {
   }
 
   if (quizState === 'results') {
+    const finalScore = Math.round((score / questions.length) * 100);
+    const isCompleted = finalScore >= PASSING_SCORE_PERCENTAGE;
     return (
         <div className="w-full max-w-2xl mx-auto text-center py-8">
             <Card className="bg-secondary">
                 <CardHeader>
                     <Trophy className="h-16 w-16 text-accent mx-auto" />
                     <CardTitle className="text-3xl font-headline mt-4">Level {level.level} Complete!</CardTitle>
-                    <CardDescription>Great job on finishing the quiz.</CardDescription>
+                    <CardDescription>
+                      {isCompleted ? "You passed! On to the next challenge!" : "Good try! You can do better next time."}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-5xl font-bold">{Math.round((score / questions.length) * 100)}%</p>
+                    <p className="text-5xl font-bold">{finalScore}%</p>
                     <p className="text-muted-foreground mt-2">You answered {score} out of {questions.length} questions correctly.</p>
                 </CardContent>
                 <CardFooter className="flex-col gap-4">
