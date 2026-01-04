@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function AlphabetPage() {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+
   return (
     <div className="container mx-auto max-w-3xl py-8">
         <Card>
@@ -16,8 +18,14 @@ export default function AlphabetPage() {
                 <p>The alphabet has 26 letters. Each letter has a big (capital) and small version.</p>
                 
                 <div className="bg-secondary/50 p-4 rounded-lg text-center">
-                    <p className="text-4xl font-mono">Aa Bb Cc Dd Ee...</p>
-                    <p>...and so on all the way to Zz!</p>
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 font-mono text-3xl">
+                        {alphabet.map((letter) => (
+                            <div key={letter}>
+                                <span>{letter}</span>
+                                <span>{letter.toLowerCase()}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </CardContent>
              <CardFooter className="flex justify-between">
