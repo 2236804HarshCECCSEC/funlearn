@@ -114,7 +114,7 @@ export default function SignupPage() {
           description: 'You have been successfully signed up.',
         });
       }
-      // For both new and returning users, onAuthStateChanged will redirect to dashboard
+      // For both new and returning users, onAuthStateChanged will redirect to quiz
     });
   }
 
