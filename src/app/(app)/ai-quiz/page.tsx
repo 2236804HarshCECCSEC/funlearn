@@ -180,7 +180,7 @@ export default function AiQuizPage() {
                 </CardContent>
                 <CardFooter className="flex-col gap-4">
                     <Button onClick={resetQuiz} className="w-full">Take Another Quiz</Button>
-                    <Button asChild variant="outline" className="w-full"><Link href="/quiz">Back to Main Quiz Page</Link></Button>
+                    <Button asChild variant="outline" className="w-full"><Link href="/dashboard">Back to Dashboard</Link></Button>
                 </CardFooter>
             </Card>
         </div>

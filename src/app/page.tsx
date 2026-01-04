@@ -75,7 +75,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!isUserLoading && user) {
-      router.push('/quiz');
+      router.push('/dashboard');
     }
   }, [user, isUserLoading, router]);
   

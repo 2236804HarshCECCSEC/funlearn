@@ -81,7 +81,7 @@ export default function SignupPage() {
         title: 'Account Created!',
         description: 'You have been successfully signed up.',
       });
-      router.push('/quiz');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error(error);
       toast({
@@ -114,13 +114,13 @@ export default function SignupPage() {
           description: 'You have been successfully signed up.',
         });
       }
-      // For both new and returning users, onAuthStateChanged will redirect to quiz
+      // For both new and returning users, onAuthStateChanged will redirect to dashboard
     });
   }
 
   useEffect(() => {
     if (!isUserLoading && user) {
-      router.push('/quiz');
+      router.push('/dashboard');
     }
   }, [user, isUserLoading, router]);
 
