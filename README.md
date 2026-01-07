@@ -3,7 +3,7 @@ FunLearn 🎓🚀
 FunLearn is an interactive learning platform designed to make education engaging, simple, and fun.
 It helps learners move from basic to advanced concepts through structured modules and a modern user interface.
 
-Live Website: https://funlearnwebsite.vercel.app
+
 
 FEATURES
 
